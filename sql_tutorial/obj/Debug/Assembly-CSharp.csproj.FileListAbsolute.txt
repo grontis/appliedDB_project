@@ -1,0 +1,2 @@
+D:\UnityProjects\Evos_Game_Dungeon_1\sql_tutorial\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+D:\UnityProjects\Evos_Game_Dungeon_1\sql_tutorial\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
