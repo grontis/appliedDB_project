@@ -7,13 +7,13 @@ $race = $_POST["race"];
 $class = $_POST["class"];
 $level = $_POST["level"];
 
-//retrieve ID number of currently logged in user account
+//retrieve ID number of zone
 $zoneIDQuery = "SELECT z_id
                 FROM zone
                 WHERE z_name = '" . $zone . "'; ";
 $zoneIDresult = mysqli_query($con, $zoneIDQuery)or die("error2:user ID Query Failed");
 $zonedata = mysqli_fetch_assoc($zoneIDresult);
-$zoneID = $zonedata["id"];
+$zoneID = $zonedata["z_id"];
 
 
 //all fields empty
@@ -68,12 +68,9 @@ else if($zone == "N/A" && $questID == 0 && $race == "N/A" && $class == "N/A" && 
 else if($zone != "N/A" && $questID != 0 && $race == "N/A" && $class == "N/A" && $level == 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C JOIN gives_quest Q
-                 ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . ";";
+                 FROM characters C 
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . ";";
 }
 
 //zone and race
@@ -158,42 +155,30 @@ else if($zone == "N/A" && $questID == 0 && $race == "N/A" && $class != "N/A" && 
 else if($zone != "N/A" && $questID != 0 && $race != "N/A" && $class == "N/A" && $level == 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.race = '" . $race . "'
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.race = '" . $race . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.race = '" . $race . "';";
 }
 
 //zone, quest, class
 else if($zone != "N/A" && $questID != 0 && $race == "N/A" && $class != "N/A" && $level == 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.class = '" . $class . "'
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.class = '" . $class . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.class = '" . $class . "';";
 }
 
 //zone,quest, level
 else if($zone != "N/A" && $questID != 0 && $race == "N/A" && $class == "N/A" && $level != 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.level = '" . $level . "'
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.level = '" . $level . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.level = '" . $level . "';";
 }
 
 //zone, race, class
@@ -263,28 +248,20 @@ else if($zone == "N/A" && $questID == 0 && $race != "N/A" && $class != "N/A" && 
 else if($zone != "N/A" && $questID != 0 && $race != "N/A" && $class != "N/A" && $level == 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.race = '" . $race . "' AND C.class = '" . $class . "'
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.race = '" . $race . "'AND C.class = '" . $class . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.race = '" . $race . "'AND C.class = '" . $class . "';";
 }
 
 //zone, quest, race, level
 else if($zone != "N/A" && $questID != 0 && $race != "N/A" && $class == "N/A" && $level != 0)
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.race = '" . $race . "' AND C.level = " . $level. "
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.race = '" . $race . "'AND C.level = '" . $level . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.race = '" . $race . "'AND C.level = '" . $level . "';";
 }
 
 //zone, race, class, level
@@ -311,14 +288,10 @@ else if($zone == "N/A" && $questID != 0 && $race != "N/A" && $class != "N/A" && 
 else
 {
     $query =    "SELECT ch_name, race, class, level
-                 FROM characters C JOIN located_in L
-                 ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
-                 WHERE C.race = '" . $race . "' AND C.class = '" .$class . "' AND C.level = " . $level. "
-                 INTERSECT
-                 SELECT ch_name, race, class, level
-                 FROM characters C1 JOIN gives_quest Q
-                 ON C1.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
-                 WHERE C1.race = '" . $race . "'AND C.class = '" .$class . "' AND C.level = '" . $level . "';";
+                 FROM characters C
+                 JOIN located_in L ON C.ch_id = L.ch_id AND L.z_id = ". $zoneID . "
+                 JOIN gives_quest Q ON C.ch_id = Q.ch_id AND Q.npcID = " . $questID . "
+                 WHERE C.race = '" . $race . "'AND C.class = '" .$class . "' AND C.level = '" . $level . "';";
 }
 
 
