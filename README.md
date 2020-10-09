@@ -1,4 +1,4 @@
-# appliedDB_project
+# Spring 2019 Applied Database project: MMORPG database
 
 This project was created by Grant Kveton during undergraduate studies at Florida Atlantic University in 2019.
 
@@ -11,7 +11,7 @@ MMO (Massively Multiplayer Online) video games are a popular style of video game
 ## Demo Video
 [Application Demo Video](https://www.youtube.com/watch?v=4v9w5tiwYV4 "Application Demo Video")
 
-## ER Diagram
+## ER Diagrams
 
 ![erDiagram](https://github.com/grontis/appliedDB_project/blob/master/imgs/erDiagram.png)
 
